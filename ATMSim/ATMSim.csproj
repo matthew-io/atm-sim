@@ -98,13 +98,13 @@
     <None Include="Resources\button-arrow.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\atm-background.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\button-arrow-right.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\button-arrow-left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\atm-background.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

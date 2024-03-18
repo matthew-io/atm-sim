@@ -20,15 +20,14 @@ namespace ATMSim
         private Hashtable accounts = new Hashtable();
         private Account currentAcc;
         private bool isWithdrawing = false;
-        private int clickCount = 0;
 
         public ATM(Hashtable accounts)
         {
             this.accounts = accounts;
-            InitializeComponent();
+            InitializeComponent();    
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void enterBtn_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Is user withdrawing: " + isWithdrawing);
             if (isWithdrawing)
@@ -43,9 +42,7 @@ namespace ATMSim
                 {
                     this.currentAcc = (Account)accounts[pinText];
                     Console.WriteLine("Account found");
-                    panel3.Visible = false;
-                    panel1.Visible = true;
-                    panel2.Visible = true;
+                    hideMiddlePanel();
                 }
                 else
                 {
@@ -59,81 +56,170 @@ namespace ATMSim
             Console.WriteLine("Clicked");
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            String input = Interaction.InputBox("Enter your pin number", "Withdraw", "", this.Location.X + 200, this.Location.Y + 200);
-            
-            if (input == currentAcc.getPin())
-            {
-                currentAcc.withdraw(Int32.Parse(textBox2.Text));
-            } else
-            {
-                Console.WriteLine("Incorrect pin!!!");
-            }
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            label2.Text = "Balance: " + currentAcc.getBalance();
-        }
 
         private void ATM_Load(object sender, EventArgs e)
         {
             Console.WriteLine("ATM Loaded");
         }
 
-        private void label4_Click(object sender, EventArgs e)
+
+        private void hideSidePanels()
         {
-            Console.WriteLine(".");
+            panel1.Visible = false;
+            panel2.Visible = false;
+            panel3.Visible = true;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void hideMiddlePanel()
         {
-            string input = Interaction.InputBox("Enter your pin number", "Deposit", "", this.Location.X + 200, this.Location.Y + 200);
-
-            if (input == currentAcc.getPin())
-            {
-                currentAcc.deposit(Int32.Parse(textBox3.Text));
-            } else
-            {
-                Console.WriteLine("Incorrect pin!!!");
-            }
+            panel1.Visible = true;
+            panel2.Visible = true;
+            panel3.Visible = false;
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void hideMiddleInput()
         {
-            currentAcc.changePin(textBox4.Text);
+            textBox1.Visible = false;
+            enterBtn.Visible = false;
+            label4.Visible = true;
         }
 
-        private void button8_Click(object sender, EventArgs e)
+
+        private void withdrawMenu()
         {
-            if (isWithdrawing)
-            {
                 withdrawLbl.Text = "£10";
                 chkBalanceLbl.Text = "£20";
                 depositLbl.Text = "£40";
                 changePinLbl.Text = "£80";
                 statementLbl.Text = "£100";
                 transferLbl.Text = "£200";
-            }
         }
 
-        private async void balanceBtn_Click(object sender, EventArgs e)
+        private async void displayBalance()
         {
-            panel1.Visible = false;
-            panel2.Visible = false;
-            panel3.Visible = true;
-            textBox1.Visible = false;
-            button1.Visible = false;
-            label4.Visible = true;
+            hideSidePanels();
+            hideMiddleInput();
             label4.Text = "Your current balance is: £" + currentAcc.getBalance();
-            
             await Task.Delay(3000);
+            hideMiddlePanel();
+        }
 
-            panel1.Visible = true;
-            panel2.Visible = true;
-            panel3.Visible = false;
+
+        private void resetMenu()
+        {
+            withdrawLbl.Text = "WITHDRAW";
+            chkBalanceLbl.Text = "CHECK BALANCE";
+            depositLbl.Text = "DEPOSIT";
+            changePinLbl.Text = "CHANGE PIN";
+            statementLbl.Text = "PRINT STATEMENT";
+            transferLbl.Text = "TRANSFER";
+        }
+
+        private async void handleWithdraw(int amount)
+        {
+            hideSidePanels();
+            hideMiddleInput();
+            if (amount > currentAcc.getBalance())
+            {
+                label4.Text = "Insufficient funds.";
+                await Task.Delay(3000);
+            } else
+            {
+                label4.Text = "Withdrawing £" + amount + "....";
+                await Task.Delay(1000);
+                currentAcc.withdraw(amount);
+            }
+            isWithdrawing = false;
+            resetMenu();
+            hideMiddlePanel();
+        }
+
+        private void clickHandler(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+
+            // For when the user is in the main menu
+
+            switch (btn.Name)
+            {
+                case "button1":
+                    if (!isWithdrawing)
+                    {
+                        isWithdrawing = true;
+                        withdrawMenu();
+                        break;
+                    }
+                    if (isWithdrawing)
+                    {
+                        handleWithdraw(10);
+                        break;
+                    }
+                    break;
+                case "button2":
+                    if (!isWithdrawing)
+                    {
+                        displayBalance();
+                        break;
+                    }
+                    if (isWithdrawing)
+                    {
+                        handleWithdraw(20);
+                        break;
+                    }
+                    break;
+                case "button3":
+                    if (!isWithdrawing)
+                    {
+                        displayBalance();
+                        break;
+                    }
+                    if (isWithdrawing)
+                    {
+                        handleWithdraw(40);
+                        break;
+                    }
+                    break;
+                case "button4":
+                    if (!isWithdrawing)
+                    {
+                        displayBalance();
+                        break;
+                    }
+                    if (isWithdrawing)
+                    {
+                        handleWithdraw(80);
+                        break;
+                    }
+                    break;
+                case "button7":
+                    if (!isWithdrawing)
+                    {
+                        displayBalance();
+                        break;
+                    }
+                    if (isWithdrawing)
+                    {
+                        handleWithdraw(200);
+                        break;
+                    }
+                    break;
+                case "button8":
+                    if (!isWithdrawing)
+                    {
+                        displayBalance();
+                        break;
+                    }
+                    if (isWithdrawing)
+                    {
+                        handleWithdraw(100);
+                        break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+
         }
     }
 }
