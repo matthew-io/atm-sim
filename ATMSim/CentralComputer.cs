@@ -24,21 +24,21 @@ namespace ATMSim
             Account accC = new Account(123, "3333", "3333333");
             Account accD = new Account(123, "4444", "4444444");
 
-            accounts.Add("111111", accA);
-            accounts.Add("222222", accB);
-            accounts.Add("333333", accC);
-            accounts.Add("444444", accD);
+            accounts.Add("1111", accA);
+            accounts.Add("2222", accB);
+            accounts.Add("3333", accC);
+            accounts.Add("4444", accD);
 
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Thread newATMThread = new Thread(start);
+            Thread newATMThread = new Thread(SpawnATM);
             newATMThread.Start();
         }
 
-        void start()
+        void SpawnATM()
         {
             ATM atm = new ATM(this.accounts);
             Application.Run(atm);
