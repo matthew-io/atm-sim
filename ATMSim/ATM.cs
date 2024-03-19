@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
+using System.Net;
 
 
 namespace ATMSim
@@ -19,7 +20,10 @@ namespace ATMSim
     {
         private Hashtable accounts = new Hashtable();
         private Account currentAcc;
+
         private bool isWithdrawing = false;
+        private bool isDepositing = false;
+        private bool isChangingPin = false;
 
         public ATM(Hashtable accounts)
         {
@@ -27,13 +31,60 @@ namespace ATMSim
             InitializeComponent();    
         }
 
-        private void enterBtn_Click(object sender, EventArgs e)
+        private async void enterBtnHandle()
         {
             Console.WriteLine("Is user withdrawing: " + isWithdrawing);
-            if (isWithdrawing)
+            if (isDepositing)
             {
-              
-            } else
+                int depositAmount = Int32.Parse(textBox1.Text);
+                hideMiddleInput();
+                label4.Text = "Depositing £" + depositAmount + "....";
+
+                await Task.Delay(1000);
+
+                bool depositSuccess = currentAcc.deposit(depositAmount);
+
+                if (depositSuccess)
+                {
+                    label4.Text = "Deposit successful!";
+                } else
+                {
+                    label4.Text = "Deposit failed.";
+                }
+
+                await Task.Delay(1500);
+
+                isDepositing = false;
+                resetMenu();
+                hideMiddlePanel();
+            }
+
+            if (isChangingPin)
+            {
+                String newPin = textBox1.Text;
+                hideMiddleInput();
+                label4.Text = "Changing pin...";
+
+                await Task.Delay(1000);
+
+                bool changeSucess = currentAcc.changePin(newPin);
+
+                if (changeSucess)
+                {
+                    label4.Text = "Pin changed sucessfully!";
+                } else
+                {
+                    label4.Text = "Pin change unsucessful.";
+                }
+
+                await Task.Delay(1500);
+
+                isChangingPin = false;
+                resetMenu();
+                hideMiddlePanel();
+            }
+
+            else
             {
                 String pinText = textBox1.Text.Trim();
                 Console.WriteLine(pinText);
@@ -85,6 +136,13 @@ namespace ATMSim
         }
 
 
+        private void showMiddleInput()
+        {
+            textBox1.Visible = true;
+            enterBtn.Visible = true;
+            label4.Visible = true;
+        }
+
         private void withdrawMenu()
         {
                 withdrawLbl.Text = "£10";
@@ -134,11 +192,27 @@ namespace ATMSim
             hideMiddlePanel();
         }
 
+        public void handleDeposit()
+        {
+            hideSidePanels();
+            showMiddleInput();
+            label4.Text = "Enter deposit amount: ";
+            textBox1.Text = "";
+        }
+
+        public void handlePinChange()
+        {
+            hideSidePanels();
+            showMiddleInput();
+            label4.Text = "Enter your new pin: ";
+            textBox1.Text = "";
+        }
+
+    
         private void clickHandler(object sender, EventArgs e)
         {
             Button btn = sender as Button;
 
-            // For when the user is in the main menu
 
             switch (btn.Name)
             {
@@ -170,7 +244,8 @@ namespace ATMSim
                 case "button3":
                     if (!isWithdrawing)
                     {
-                        displayBalance();
+                        isDepositing = true;
+                        handleDeposit();
                         break;
                     }
                     if (isWithdrawing)
@@ -182,7 +257,8 @@ namespace ATMSim
                 case "button4":
                     if (!isWithdrawing)
                     {
-                        displayBalance();
+                        isChangingPin = true;
+                        handlePinChange();
                         break;
                     }
                     if (isWithdrawing)
@@ -215,11 +291,15 @@ namespace ATMSim
                         break;
                     }
                     break;
+                case "enterBtn":
+                    enterBtnHandle();
+                    break;
                 default:
                     break;
             }
 
 
         }
+
     }
 }

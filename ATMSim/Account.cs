@@ -101,7 +101,7 @@ namespace ATMSim
             {
                 Console.WriteLine("Semaphore released.");
                 Thread.Sleep(3000);
-                this.pin = newPin;
+                pin = newPin;
                 accountSem.Release();
                 return true;
             } else
