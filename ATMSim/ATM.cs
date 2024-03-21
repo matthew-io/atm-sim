@@ -25,10 +25,13 @@ namespace ATMSim
         private bool isWithdrawing = false;
         private bool isDepositing = false;
         private bool isChangingPin = false;
+        private bool isLogin = true;
+        private bool Sems;
 
-        public ATM(Hashtable accounts)
+        public ATM(Hashtable accounts, bool Sems)
         {
             this.accounts = accounts;
+            this.Sems = Sems;
             InitializeComponent();    
         }
 
@@ -43,7 +46,7 @@ namespace ATMSim
 
                 await Task.Delay(1000);
 
-                bool depositSuccess = currentAcc.deposit(depositAmount);
+                bool depositSuccess = currentAcc.deposit(depositAmount, Sems);
 
                 if (depositSuccess)
                 {
@@ -68,7 +71,7 @@ namespace ATMSim
 
                 await Task.Delay(1000);
 
-                bool changeSucess = currentAcc.changePin(newPin);
+                bool changeSucess = currentAcc.changePin(newPin, Sems);
 
                 if (changeSucess)
                 {
@@ -95,6 +98,7 @@ namespace ATMSim
                     this.currentAcc = (Account)accounts[pinText];
                     Console.WriteLine("Account found");
                     hideMiddlePanel();
+                    isLogin = false;
                 }
                 else
                 {
@@ -119,9 +123,21 @@ namespace ATMSim
         private void padClickHandler(object sender, EventArgs e)
         {
             Button btn = sender as Button;
-            textBox1.Text += btn.Text;
-        }
+            Console.WriteLine(textBox1.Text.Length);
 
+            if (isLogin)
+            {
+                   if (textBox1.Text.Length < 4)
+                {
+                    textBox1.Text += btn.Text;
+                }
+            }
+            else
+            {
+                textBox1.Text += btn.Text; 
+            }
+
+        }
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -206,7 +222,7 @@ namespace ATMSim
             {
                 label4.Text = "Withdrawing £" + amount + "....";
                 await Task.Delay(1000);
-                currentAcc.withdraw(amount);
+                currentAcc.withdraw(amount, Sems);
             }
             isWithdrawing = false;
             resetMenu();
@@ -323,7 +339,12 @@ namespace ATMSim
         }
         private void button18_Click(object sender, EventArgs e)
         {
-            label4.Text = "";
+            textBox1.Text = "";
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

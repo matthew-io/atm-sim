@@ -40,16 +40,38 @@ namespace ATMSim
             return pin;
         }
 
-        public Boolean withdraw(int amount)
+        public Boolean withdraw(int amount, bool Sems)
         {
-            Console.WriteLine("Waiting for semaphore...");
-            bool semAcquired= balanceSem.WaitOne(12000); 
-            try
+            if (Sems)
             {
-                if (semAcquired && this.balance >= amount)
+                Console.WriteLine("Waiting for sempahore.");
+                bool semAcquired = balanceSem.WaitOne(12000);
+
+                try
                 {
-                    Console.WriteLine("Semaphore acquired!");
-                    Thread.Sleep(3000);
+                    if (semAcquired && this.balance >= amount)
+                    {
+                        Console.WriteLine("Semaphore acquired!");
+                        Thread.Sleep(3000);
+                        balance -= amount;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                finally
+                {
+                    if (semAcquired)
+                    {
+                        balanceSem.Release();
+                    }
+                }
+            } else
+            {
+                if (this.balance >= amount)
+                {
                     balance -= amount;
                     return true;
                 }
@@ -58,28 +80,38 @@ namespace ATMSim
                     return false;
                 }
             }
-            finally
-            {
-                if (semAcquired)
-                {
-                    balanceSem.Release();
-                }
-            }
+
+           
 
         }
 
-        public Boolean deposit(int amount)
+        public Boolean deposit(int amount, bool Sems)
         {
-            if (balanceSem.WaitOne(12000) && amount != 0)
+            if (Sems)
             {
-                Thread.Sleep(3000);
-                balance += amount;
-                balanceSem.Release();
-                return true;
+                if (balanceSem.WaitOne(12000) && amount != 0)
+                {
+                    Thread.Sleep(3000);
+                    balance += amount;
+                    balanceSem.Release();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             } else
             {
-                return false;
+                if (amount != 0)
+                {
+                    balance += amount;
+                    return true;
+                } else
+                {
+                    return false;
+                }
             }
+           
         }
 
         public Boolean checkPin(String pinEntered)
@@ -94,20 +126,35 @@ namespace ATMSim
             }
         }
 
-        public Boolean changePin(String newPin)
+        public Boolean changePin(String newPin, bool Sems)
         {
-            Console.WriteLine("Waiting for semaphore...");
-            if (accountSem.WaitOne(12000) && newPin.Length == 4)
+            if (Sems)
             {
-                Console.WriteLine("Semaphore released.");
-                Thread.Sleep(3000);
-                pin = newPin;
-                accountSem.Release();
-                return true;
+                Console.WriteLine("Waiting for semaphore...");
+                if (accountSem.WaitOne(12000) && newPin.Length == 4)
+                {
+                    Console.WriteLine("Semaphore released.");
+                    Thread.Sleep(3000);
+                    pin = newPin;
+                    accountSem.Release();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             } else
             {
-                return false;
+                if (newPin.Length == 4)
+                {
+                    pin = newPin;
+                    return true;
+                } else
+                {
+                    return false;
+                }
             }
+          
         }
 
         public String getAccountNumber()

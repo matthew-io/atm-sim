@@ -16,6 +16,7 @@ namespace ATMSim
     {
 
         private Hashtable accounts = new Hashtable();
+        private bool Sems = false;
 
         public CentralComputer()
         {
@@ -40,7 +41,7 @@ namespace ATMSim
 
         void SpawnATM()
         {
-            ATM atm = new ATM(this.accounts);
+            ATM atm = new ATM(this.accounts, this.Sems);
             Application.Run(atm);
         }
     }
