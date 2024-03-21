@@ -18,6 +18,7 @@ namespace ATMSim
         private Hashtable accounts = new Hashtable();
         private bool Sems = false;
         private int atmCount = 0;
+        private int threadCount = 0;
 
         public CentralComputer()
         {
@@ -45,10 +46,27 @@ namespace ATMSim
             atmCount = Int32.Parse(textBox1.Text);
             for (int i = 0; i < atmCount; i++)
             {
+                int currentThreadNumber = Interlocked.Increment(ref threadCount);
+
                 Thread atmThread = new Thread(() =>
                 {
+                    int currentATMNumber = currentThreadNumber;
+
+                    listBox1.BeginInvoke((MethodInvoker)delegate
+                    {
+                        listBox1.Items.Add("ATM #" + currentATMNumber + " spawned");
+                    });
+
                     ATM atm = new ATM(this.accounts, this.Sems);
-                    atm.FormClosed += (sender, args) => Application.ExitThread(); 
+                    atm.FormClosed += (sender, args) =>
+                    {
+                        Application.ExitThread();
+                        listBox1.BeginInvoke((MethodInvoker)delegate
+                        {
+                            listBox1.Items.Add("ATM #" + currentATMNumber + " closed");
+                        });
+                    };
+
                     atm.Show();
                     Application.Run();
                 });
@@ -57,6 +75,7 @@ namespace ATMSim
                 atmThread.Start();
             }
         }
+
 
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -69,5 +88,7 @@ namespace ATMSim
                 Sems = false;
             }
         }
+
+       
     }
 }

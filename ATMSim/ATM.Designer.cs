@@ -69,11 +69,11 @@
             this.textBox1.BackColor = System.Drawing.Color.DimGray;
             this.textBox1.Font = new System.Drawing.Font("Nexa Heavy", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(14, 31);
+            this.textBox1.Location = new System.Drawing.Point(76, 30);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(197, 40);
+            this.textBox1.Size = new System.Drawing.Size(195, 40);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
@@ -102,9 +102,9 @@
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Nexa Heavy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(-15, -1);
+            this.label4.Location = new System.Drawing.Point(5, 1);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(260, 27);
+            this.label4.Size = new System.Drawing.Size(332, 27);
             this.label4.TabIndex = 5;
             this.label4.Text = "Enter your PIN number";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -358,9 +358,9 @@
             this.panel3.BackColor = System.Drawing.Color.Transparent;
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.textBox1);
-            this.panel3.Location = new System.Drawing.Point(165, 280);
+            this.panel3.Location = new System.Drawing.Point(113, 280);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(226, 82);
+            this.panel3.Size = new System.Drawing.Size(338, 82);
             this.panel3.TabIndex = 26;
             // 
             // button9

@@ -11,7 +11,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using System.Net;
-
+using System.Media;
 
 namespace ATMSim
 {
@@ -20,6 +20,8 @@ namespace ATMSim
     {
         private Hashtable accounts = new Hashtable();
         private Account currentAcc;
+
+        private SoundPlayer soundPlayer;
 
         private int tries = 0;
         private bool isWithdrawing = false;
@@ -32,11 +34,16 @@ namespace ATMSim
         {
             this.accounts = accounts;
             this.Sems = Sems;
-            InitializeComponent();    
+            InitializeComponent();
+
+            System.IO.Stream sound = Properties.Resources.keypress;
+            soundPlayer = new SoundPlayer(sound);
+            soundPlayer.Load();
         }
 
         private async void enterBtnHandle()
         {
+            soundPlayer.Play();
             Console.WriteLine("Is user withdrawing: " + isWithdrawing);
             if (isDepositing)
             {
@@ -50,6 +57,7 @@ namespace ATMSim
 
                 if (depositSuccess)
                 {
+                    await Task.Delay(1500);
                     label4.Text = "Deposit successful!";
                 } else
                 {
@@ -105,7 +113,7 @@ namespace ATMSim
                     if (tries == 3)
                     {
                         textBox1.Visible = false;
-                        label4.Text = "Too many tries. Exiting...";
+                        label4.Text = "Too many tries. Please take your card.";
                         await Task.Delay(3000);
                         this.Close();
                     }
@@ -124,6 +132,8 @@ namespace ATMSim
 
         private void padClickHandler(object sender, EventArgs e)
         {
+            soundPlayer.Play();
+
             Button btn = sender as Button;
             Console.WriteLine(textBox1.Text.Length);
 
@@ -135,10 +145,10 @@ namespace ATMSim
                     textBox1.Text += btn.Text;
                 }
             }
-            else
+            else if (isDepositing || isWithdrawing)
             {
                 textBox1.PasswordChar = '\0';
-                textBox1.Text += btn.Text; 
+                textBox1.Text += btn.Text;
             }
 
         }
@@ -253,7 +263,7 @@ namespace ATMSim
         private void clickHandler(object sender, EventArgs e)
         {
             Button btn = sender as Button;
-
+            soundPlayer.Play();
 
             switch (btn.Name)
             {
