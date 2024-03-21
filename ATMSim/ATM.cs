@@ -213,7 +213,6 @@ namespace ATMSim
             hideMiddlePanel();
         }
 
-
         private void resetMenu()
         {
             withdrawLbl.Text = "WITHDRAW";
@@ -278,7 +277,7 @@ namespace ATMSim
                     {
                         handleWithdraw(10);
                         break;
-                    }
+                    } else
                     break;
                 case "button2":
                     if (!isWithdrawing)
@@ -351,6 +350,8 @@ namespace ATMSim
 
 
         }
+
+
         private void button18_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";

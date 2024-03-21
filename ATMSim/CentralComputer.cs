@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATMSim
 {
@@ -19,6 +20,8 @@ namespace ATMSim
         private bool Sems = false;
         private int atmCount = 0;
         private int threadCount = 0;
+        private Dictionary<int, ListViewItem> atmListItems = new Dictionary<int, ListViewItem>();
+
 
         public CentralComputer()
         {
@@ -41,6 +44,7 @@ namespace ATMSim
             newATMThread.Start();
         }
 
+
         void SpawnATM()
         {
             atmCount = Int32.Parse(textBox1.Text);
@@ -51,10 +55,11 @@ namespace ATMSim
                 Thread atmThread = new Thread(() =>
                 {
                     int currentATMNumber = currentThreadNumber;
+                    string atmItemText = "ATM #" + currentATMNumber;
 
                     listBox1.BeginInvoke((MethodInvoker)delegate
                     {
-                        listBox1.Items.Add("ATM #" + currentATMNumber + " spawned");
+                        listBox1.Items.Add(atmItemText);
                     });
 
                     ATM atm = new ATM(this.accounts, this.Sems);
@@ -63,7 +68,7 @@ namespace ATMSim
                         Application.ExitThread();
                         listBox1.BeginInvoke((MethodInvoker)delegate
                         {
-                            listBox1.Items.Add("ATM #" + currentATMNumber + " closed");
+                            listBox1.Items.Remove(atmItemText);
                         });
                     };
 
@@ -75,7 +80,6 @@ namespace ATMSim
                 atmThread.Start();
             }
         }
-
 
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

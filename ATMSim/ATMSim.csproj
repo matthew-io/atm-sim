@@ -121,5 +121,14 @@
   <ItemGroup>
     <None Include="Resources\keypress.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\atm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\atm.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bank.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
