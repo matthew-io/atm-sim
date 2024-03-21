@@ -98,12 +98,6 @@
     <None Include="Resources\button-arrow.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\button-arrow-right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\button-arrow-left.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\withdraw-btn.png" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\deposit-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button-arrow-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button-arrow-left.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\atm-background.png" />

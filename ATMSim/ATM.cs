@@ -21,6 +21,7 @@ namespace ATMSim
         private Hashtable accounts = new Hashtable();
         private Account currentAcc;
 
+        private int tries = 0;
         private bool isWithdrawing = false;
         private bool isDepositing = false;
         private bool isChangingPin = false;
@@ -99,10 +100,30 @@ namespace ATMSim
                 }
                 else
                 {
-                    Console.WriteLine("Account not found");
+                    tries++;
+                    label4.Text = "Incorrect PIN. Please try again.";
+                    textBox1.Visible = false;
+                    await Task.Delay(2000);
+                    textBox1.Text = "";
+                    label4.Text = "Please enter your PIN number";
+                    textBox1.Visible = true;
+                }
+
+                if (tries == 3)
+                {
+                    label4.Text = "Too many tries. Exiting...";
+                    await Task.Delay(3000);
+                    this.Close();
                 }
             }
         }
+
+        private void padClickHandler(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            textBox1.Text += btn.Text;
+        }
+
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -302,6 +323,9 @@ namespace ATMSim
 
 
         }
-
+        private void button18_Click(object sender, EventArgs e)
+        {
+            label4.Text = "";
+        }
     }
 }
