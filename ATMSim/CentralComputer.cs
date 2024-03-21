@@ -17,6 +17,7 @@ namespace ATMSim
 
         private Hashtable accounts = new Hashtable();
         private bool Sems = false;
+        private int atmCount = 0;
 
         public CentralComputer()
         {
@@ -41,8 +42,32 @@ namespace ATMSim
 
         void SpawnATM()
         {
-            ATM atm = new ATM(this.accounts, this.Sems);
-            Application.Run(atm);
+            atmCount = Int32.Parse(textBox1.Text);
+            for (int i = 0; i < atmCount; i++)
+            {
+                Thread atmThread = new Thread(() =>
+                {
+                    ATM atm = new ATM(this.accounts, this.Sems);
+                    atm.FormClosed += (sender, args) => Application.ExitThread(); 
+                    atm.Show();
+                    Application.Run();
+                });
+
+                atmThread.SetApartmentState(ApartmentState.STA);
+                atmThread.Start();
+            }
+        }
+
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                Sems = true;
+            } else
+            {
+                Sems = false;
+            }
         }
     }
 }

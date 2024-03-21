@@ -102,6 +102,13 @@ namespace ATMSim
                 }
                 else
                 {
+                    if (tries == 3)
+                    {
+                        textBox1.Visible = false;
+                        label4.Text = "Too many tries. Exiting...";
+                        await Task.Delay(3000);
+                        this.Close();
+                    }
                     tries++;
                     label4.Text = "Incorrect PIN. Please try again.";
                     textBox1.Visible = false;
@@ -111,12 +118,7 @@ namespace ATMSim
                     textBox1.Visible = true;
                 }
 
-                if (tries == 3)
-                {
-                    label4.Text = "Too many tries. Exiting...";
-                    await Task.Delay(3000);
-                    this.Close();
-                }
+                
             }
         }
 
@@ -127,13 +129,15 @@ namespace ATMSim
 
             if (isLogin)
             {
-                   if (textBox1.Text.Length < 4)
+                textBox1.PasswordChar = '*';
+                if (textBox1.Text.Length < 4)
                 {
                     textBox1.Text += btn.Text;
                 }
             }
             else
             {
+                textBox1.PasswordChar = '\0';
                 textBox1.Text += btn.Text; 
             }
 

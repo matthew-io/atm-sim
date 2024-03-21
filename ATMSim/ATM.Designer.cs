@@ -67,6 +67,7 @@
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.DimGray;
+            this.textBox1.Font = new System.Drawing.Font("Nexa Heavy", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(14, 31);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
