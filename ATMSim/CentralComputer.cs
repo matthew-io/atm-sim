@@ -38,9 +38,19 @@ namespace ATMSim
             newATMThread.Start();
         }
 
+        bool Sems = true;
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Sems = true;
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Sems = false;
+        }
+
         void SpawnATM()
         {
-            ATM atm = new ATM(this.accounts);
+            ATM atm = new ATM(this.accounts, Sems);
             Application.Run(atm);
         }
     }

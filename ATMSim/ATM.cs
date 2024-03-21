@@ -24,10 +24,12 @@ namespace ATMSim
         private bool isWithdrawing = false;
         private bool isDepositing = false;
         private bool isChangingPin = false;
+        private bool Sems;
 
-        public ATM(Hashtable accounts)
+        public ATM(Hashtable accounts, bool Sems)
         {
             this.accounts = accounts;
+            this.Sems = Sems;
             InitializeComponent();    
         }
 
@@ -42,7 +44,7 @@ namespace ATMSim
 
                 await Task.Delay(1000);
 
-                bool depositSuccess = currentAcc.deposit(depositAmount);
+                bool depositSuccess = currentAcc.deposit(depositAmount, Sems);
 
                 if (depositSuccess)
                 {
@@ -67,7 +69,7 @@ namespace ATMSim
 
                 await Task.Delay(1000);
 
-                bool changeSucess = currentAcc.changePin(newPin);
+                bool changeSucess = currentAcc.changePin(newPin, Sems);
 
                 if (changeSucess)
                 {
@@ -185,7 +187,7 @@ namespace ATMSim
             {
                 label4.Text = "Withdrawing £" + amount + "....";
                 await Task.Delay(1000);
-                currentAcc.withdraw(amount);
+                currentAcc.withdraw(amount, Sems);
             }
             isWithdrawing = false;
             resetMenu();
