@@ -22,6 +22,7 @@ namespace ATMSim
         private bool isDepositing = false;
         private bool isChangingPin = false;
         private bool isLogin = true;
+        private bool accountFound = false;
         private bool Sems;
         private delegate void SafeCallDelegate(string text);
 
@@ -66,7 +67,8 @@ namespace ATMSim
                     showMiddleInput();
                     label4.Text = "Enter deposit amount: ";
                     return;
-                } else
+                }
+                else
                 {
                     int depositAmount = Int32.Parse(textBox1.Text);
                     hideMiddleInput();
@@ -110,7 +112,8 @@ namespace ATMSim
                 {
                     label4.Text = "Pin changed sucessfully!";
                     Log("ATM #" + currentATMNumber + ": " + "Account No. " + this.currentAcc.getAccountNumber() + " changed their PIN to " + newPin);
-                } else
+                }
+                else
                 {
                     label4.Text = "Pin change unsucessful.";
                 }
@@ -122,35 +125,66 @@ namespace ATMSim
                 hideMiddlePanel();
             }
 
-            else
+            if (isLogin)
             {
-                String pinText = textBox1.Text.Trim();
-                Console.WriteLine(pinText);
-                Console.WriteLine(accounts.ContainsKey(pinText));
-                if (accounts.ContainsKey(pinText))
+                if (!accountFound)
                 {
-                    this.currentAcc = (Account)accounts[pinText];
-                    Console.WriteLine("Account found");
-                    Log("ATM #" + currentATMNumber + ": has logged into Account No. " + this.currentAcc.getAccountNumber());
-                    hideMiddlePanel();
-                    isLogin = false;
-                }
-                else
-                {
-                    if (tries == 3)
+                    string accountNumberText = textBox1.Text.Trim();
+                    Console.WriteLine(accountNumberText);
+
+                    if (accounts.ContainsKey(accountNumberText))
                     {
-                        textBox1.Visible = false;
-                        label4.Text = "Too many tries. Please take your card.";
-                        await Task.Delay(3000);
-                        this.Close();
+                        accountFound = true;
+                        currentAcc = (Account)accounts[accountNumberText];
+                        Console.WriteLine("Account found, please enter PIN.");
+                        label4.Text = "Please enter your PIN";
+                        textBox1.Text = "";
+                        textBox1.Visible = true;
                     }
-                    tries++;
-                    label4.Text = "Incorrect PIN. Please try again.";
-                    textBox1.Visible = false;
-                    await Task.Delay(2000);
-                    textBox1.Text = "";
-                    label4.Text = "Please enter your PIN number";
-                    textBox1.Visible = true;
+                    else
+                    {
+                        label4.Text = "Account not found.";
+                        hideMiddleInput();
+                        textBox1.Text = "";
+                    
+                        await Task.Delay(2000);
+
+                        label4.Text = "Please enter your account number:";
+                        showMiddleInput();
+                    }
+                }
+                else 
+                {
+                    string enteredPin = textBox1.Text.Trim();
+                    if (currentAcc != null && currentAcc.getPin().Equals(enteredPin))
+                    {
+                        hideMiddleInput();
+                        hideMiddlePanel();
+                        resetMenu();
+                        Log("User " + currentAcc.getAccountNumber() + " has logged in to ATM #" + currentATMNumber);
+                        isLogin = false;
+                    }
+                    else
+                    {
+                        tries++;
+                        if (tries == 3)
+                        {
+                            hideMiddleInput();
+                            label4.Text = "Too many incorrect attempts. Please take your card.";
+                            await Task.Delay(2000);
+                            this.Close();
+                        }
+
+                        hideMiddleInput();
+                        label4.Text = "Incorrect PIN. Please try again.";
+                        textBox1.Text = "";
+
+                        await Task.Delay(2000);
+
+                        label4.Text = "Please enter your PIN:";
+                        showMiddleInput();
+
+                    }
                 }
             }
         }
@@ -165,11 +199,15 @@ namespace ATMSim
             if (isLogin || isChangingPin)
             {
                 textBox1.PasswordChar = '*';
-                if (textBox1.Text.Length < 4)
+                if (!accountFound && textBox1.Text.Length < 6)
                 {
                     textBox1.Text += btn.Text;
                 }
-            }
+                else if (textBox1.Text.Length < 4)
+                {
+                    textBox1.Text += btn.Text;
+                }
+            } 
             else if (isDepositing || isWithdrawing || isChangingPin)
             {
                 textBox1.PasswordChar = '\0';
@@ -266,6 +304,11 @@ namespace ATMSim
             {
                 label4.Text = "Withdrawing £" + amount + "....";
                 Log("ATM #" + currentATMNumber + ": Account No. " + this.currentAcc.getAccountNumber() + " withdrew £" + amount);
+                button8.Enabled = false;
+                button1.Enabled = false;
+                button2.Enabled = false;
+                button3.Enabled = false;
+                button4.Enabled = false;
                 await Task.Delay(1000);
                 
                 currentAcc.withdraw(amount, Sems);
@@ -276,6 +319,11 @@ namespace ATMSim
 
             isWithdrawing = false;
             resetMenu();
+            button8.Enabled = true;
+            button1.Enabled = true;
+            button2.Enabled = true;
+            button3.Enabled = true;
+            button4.Enabled = true;
             hideMiddlePanel();
         }
 
@@ -390,7 +438,7 @@ namespace ATMSim
 
         private void exitAtm()
         {
-            Log("ATM #" + currentATMNumber + ": Logout initiated by user.");
+            Log("ATM #" + currentATMNumber + ": user " + currentAcc.getAccountNumber() + " has logged out.");
             this.Close();
         }
 
@@ -406,7 +454,7 @@ namespace ATMSim
 
         private void exitLbl_Click(object sender, EventArgs e)
         {
-            Log("ATM #" + currentATMNumber + ": Logout initiated by user.");
+            Log("ATM #" + currentATMNumber + ": user + " + currentAcc.getAccountNumber() + " has logged out.");
             this.Close();
         }
 

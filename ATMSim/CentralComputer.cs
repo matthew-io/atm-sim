@@ -21,18 +21,19 @@ namespace ATMSim
         private bool Sems = false;
         private int atmCount = 0;
         private int threadCount = 0;
+        private Hashtable lockedAccounts = new Hashtable();
 
         public CentralComputer()
         {
-            Account accA = new Account(123, "1111", "1111111");
-            Account accB = new Account(123, "2222", "2222222");
-            Account accC = new Account(123, "3333", "3333333");
-            Account accD = new Account(123, "4444", "4444444");
+            Account accA = new Account(123, "1111", "111111");
+            Account accB = new Account(123, "2222", "222222");
+            Account accC = new Account(123, "3333", "333333");
+            Account accD = new Account(123, "4444", "444444");
 
-            accounts.Add(accA.getPin(), accA);
-            accounts.Add(accB.getPin(), accB);
-            accounts.Add(accC.getPin(), accC);
-            accounts.Add(accD.getPin(), accD);
+            accounts.Add(accA.getAccountNumber(), accA);
+            accounts.Add(accB.getAccountNumber(), accB);
+            accounts.Add(accC.getAccountNumber(), accC);
+            accounts.Add(accD.getAccountNumber(), accD);
 
             InitializeComponent();
         }
@@ -69,6 +70,7 @@ namespace ATMSim
                         listBox1.BeginInvoke((MethodInvoker)delegate
                         {
                             listBox1.Items.Remove(atmItemText);
+                            listBox2.Items.Add("ATM #" + currentATMNumber + " Closed.");
                         });
                     };
 
@@ -119,6 +121,6 @@ namespace ATMSim
             btnSaveLogs.Text = "Save Logs";
             btnSaveLogs.Enabled = true;
         }
-       
+
     }
 }
