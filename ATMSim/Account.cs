@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ATMSim
 {
-    public  class Account
+    public class Account
     {
         private int balance;
         private String pin;
@@ -68,7 +68,8 @@ namespace ATMSim
                         balanceSem.Release();
                     }
                 }
-            } else
+            }
+            else
             {
                 if (this.balance >= amount)
                 {
@@ -81,11 +82,11 @@ namespace ATMSim
                 }
             }
 
-           
+
 
         }
 
-        public Boolean deposit(int amount, bool Sems)
+        public Boolean deposit(int amount, bool Sems, CentralComputer c)
         {
             if (Sems)
             {
@@ -100,18 +101,20 @@ namespace ATMSim
                 {
                     return false;
                 }
-            } else
+            }
+            else
             {
                 if (amount != 0)
                 {
                     balance += amount;
                     return true;
-                } else
+                }
+                else
                 {
                     return false;
                 }
             }
-           
+
         }
 
         public Boolean checkPin(String pinEntered)
@@ -143,23 +146,25 @@ namespace ATMSim
                 {
                     return false;
                 }
-            } else
+            }
+            else
             {
                 if (newPin.Length == 4)
                 {
                     pin = newPin;
                     return true;
-                } else
+                }
+                else
                 {
                     return false;
                 }
             }
-          
+
         }
 
         public String getAccountNumber()
         {
             return accountNumber;
-        }   
+        }
     }
 }

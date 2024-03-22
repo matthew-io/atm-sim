@@ -20,8 +20,6 @@ namespace ATMSim
         private bool Sems = false;
         private int atmCount = 0;
         private int threadCount = 0;
-        private Dictionary<int, ListViewItem> atmListItems = new Dictionary<int, ListViewItem>();
-
 
         public CentralComputer()
         {
@@ -57,12 +55,13 @@ namespace ATMSim
                     int currentATMNumber = currentThreadNumber;
                     string atmItemText = "ATM #" + currentATMNumber;
 
+
                     listBox1.BeginInvoke((MethodInvoker)delegate
                     {
                         listBox1.Items.Add(atmItemText);
                     });
 
-                    ATM atm = new ATM(this.accounts, this.Sems);
+                    ATM atm = new ATM(this.accounts, this.Sems, this, currentATMNumber);
                     atm.FormClosed += (sender, args) =>
                     {
                         Application.ExitThread();
@@ -87,12 +86,12 @@ namespace ATMSim
             if (checkBox1.Checked)
             {
                 Sems = true;
-            } else
+            }
+            else
             {
                 Sems = false;
             }
         }
 
-       
     }
 }

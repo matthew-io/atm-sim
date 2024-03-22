@@ -59,6 +59,7 @@
             this.button16 = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.button18 = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -541,12 +542,31 @@
             this.button18.UseVisualStyleBackColor = false;
             this.button18.Click += new System.EventHandler(this.button18_Click);
             // 
+            // button19
+            // 
+            this.button19.BackColor = System.Drawing.Color.Transparent;
+            this.button19.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button19.FlatAppearance.BorderSize = 0;
+            this.button19.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.button19.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.button19.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.button19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button19.Font = new System.Drawing.Font("Microsoft Sans Serif", 1E-08F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button19.Location = new System.Drawing.Point(598, 533);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(31, 28);
+            this.button19.TabIndex = 37;
+            this.button19.Text = "0";
+            this.button19.UseVisualStyleBackColor = false;
+            this.button19.Click += new System.EventHandler(this.padClickHandler);
+            // 
             // ATM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(789, 674);
+            this.Controls.Add(this.button19);
             this.Controls.Add(this.button18);
             this.Controls.Add(this.button15);
             this.Controls.Add(this.button16);
@@ -617,5 +637,6 @@
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button19;
     }
 }
