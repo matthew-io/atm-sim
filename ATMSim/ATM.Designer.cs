@@ -336,9 +336,10 @@
             this.exitLbl.ForeColor = System.Drawing.Color.White;
             this.exitLbl.Image = global::ATMSim.Properties.Resources.exit_icon;
             this.exitLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.exitLbl.Location = new System.Drawing.Point(92, 234);
+            this.exitLbl.Location = new System.Drawing.Point(91, 234);
+            this.exitLbl.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.exitLbl.Name = "exitLbl";
-            this.exitLbl.Size = new System.Drawing.Size(63, 19);
+            this.exitLbl.Size = new System.Drawing.Size(64, 19);
             this.exitLbl.TabIndex = 20;
             this.exitLbl.Text = "EXIT";
             this.exitLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

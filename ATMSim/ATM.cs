@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
+using System.Diagnostics.Tracing;
 
 namespace ATMSim
 {
@@ -37,6 +38,7 @@ namespace ATMSim
             System.IO.Stream sound = Properties.Resources.keypress;
             soundPlayer = new SoundPlayer(sound);
             soundPlayer.Load();
+            toggleSideButtons(false);
             this.c = c;
         }
 
@@ -50,6 +52,31 @@ namespace ATMSim
             else
             {
                 c.listBox2.Items.Add(text);
+            }
+        }
+
+        private void toggleSideButtons(bool option)
+        {
+            if (option)
+            {
+                button1.Enabled = true;
+                button2.Enabled = true;
+                button3.Enabled = true;
+                button4.Enabled = true;
+                button5.Enabled = true;
+                button6.Enabled = true;
+                button7.Enabled = true;
+                button8.Enabled = true;
+            } else if (!option)
+            {
+                button1.Enabled = false;
+                button2.Enabled = false;
+                button3.Enabled = false;
+                button4.Enabled = false;
+                button5.Enabled = false;
+                button6.Enabled = false;
+                button7.Enabled = false;
+                button8.Enabled = false;
             }
         }
 
@@ -93,6 +120,7 @@ namespace ATMSim
 
 
                     isDepositing = false;
+                    toggleSideButtons(true);
                     resetMenu();
                     hideMiddlePanel();
                 }
@@ -121,6 +149,7 @@ namespace ATMSim
                 await Task.Delay(1500);
 
                 isChangingPin = false;
+                toggleSideButtons(true);
                 resetMenu();
                 hideMiddlePanel();
             }
@@ -162,6 +191,7 @@ namespace ATMSim
                         hideMiddlePanel();
                         resetMenu();
                         Log("User " + currentAcc.getAccountNumber() + " has logged in to ATM #" + currentATMNumber);
+                        toggleSideButtons(true);
                         isLogin = false;
                     }
                     else
@@ -264,11 +294,19 @@ namespace ATMSim
 
         private void withdrawMenu()
         {
+
             withdrawLbl.Text = "£10";
             chkBalanceLbl.Text = "£20";
             depositLbl.Text = "£40";
             changePinLbl.Text = "£80";
             exitLbl.Text = "£100";
+
+            withdrawLbl.Image = null;
+            chkBalanceLbl.Image = null;
+            depositLbl.Image = null;
+            changePinLbl.Image = null;
+            exitLbl.Image = null;
+
         }
 
         private async void displayBalance()
@@ -289,6 +327,12 @@ namespace ATMSim
             changePinLbl.Text = "CHANGE PIN";
             exitLbl.Text = "PRINT STATEMENT";
             exitLbl.Text = "EXIT";
+
+            withdrawLbl.Image = Properties.Resources.withdraw_icon;
+            chkBalanceLbl.Image = Properties.Resources.balance_icon;
+            depositLbl.Image = Properties.Resources.deposit_icon;
+            changePinLbl.Image = Properties.Resources.pencil_icon;
+            exitLbl.Image = Properties.Resources.exit_icon;
         }
 
         private async void handleWithdraw(int amount)
@@ -304,11 +348,6 @@ namespace ATMSim
             {
                 label4.Text = "Withdrawing £" + amount + "....";
                 Log("ATM #" + currentATMNumber + ": Account No. " + this.currentAcc.getAccountNumber() + " withdrew £" + amount);
-                button8.Enabled = false;
-                button1.Enabled = false;
-                button2.Enabled = false;
-                button3.Enabled = false;
-                button4.Enabled = false;
                 await Task.Delay(1000);
                 
                 currentAcc.withdraw(amount, Sems);
@@ -319,11 +358,6 @@ namespace ATMSim
 
             isWithdrawing = false;
             resetMenu();
-            button8.Enabled = true;
-            button1.Enabled = true;
-            button2.Enabled = true;
-            button3.Enabled = true;
-            button4.Enabled = true;
             hideMiddlePanel();
         }
 
@@ -380,6 +414,7 @@ namespace ATMSim
                 case "button3":
                     if (!isWithdrawing)
                     {
+                        toggleSideButtons(false);
                         isDepositing = true;
                         handleDeposit();
                         break;
@@ -393,6 +428,7 @@ namespace ATMSim
                 case "button4":
                     if (!isWithdrawing)
                     {
+                        toggleSideButtons(false);
                         isChangingPin = true;
                         handlePinChange();
                         break;
