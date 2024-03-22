@@ -130,5 +130,14 @@
   <ItemGroup>
     <None Include="Resources\bank.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exit-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\withdraw-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\balance-icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

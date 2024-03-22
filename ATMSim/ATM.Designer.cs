@@ -254,25 +254,27 @@
             // 
             // withdrawLbl
             // 
-            this.withdrawLbl.AutoSize = true;
             this.withdrawLbl.BackColor = System.Drawing.Color.Transparent;
             this.withdrawLbl.Font = new System.Drawing.Font("Nexa Heavy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.withdrawLbl.ForeColor = System.Drawing.Color.Snow;
+            this.withdrawLbl.Image = global::ATMSim.Properties.Resources.withdraw_icon;
+            this.withdrawLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.withdrawLbl.Location = new System.Drawing.Point(7, 233);
             this.withdrawLbl.Name = "withdrawLbl";
-            this.withdrawLbl.Size = new System.Drawing.Size(102, 19);
+            this.withdrawLbl.Size = new System.Drawing.Size(127, 19);
             this.withdrawLbl.TabIndex = 20;
             this.withdrawLbl.Text = "WITHDRAW";
             // 
             // chkBalanceLbl
             // 
-            this.chkBalanceLbl.AutoSize = true;
             this.chkBalanceLbl.BackColor = System.Drawing.Color.Transparent;
             this.chkBalanceLbl.Font = new System.Drawing.Font("Nexa Heavy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkBalanceLbl.ForeColor = System.Drawing.Color.White;
+            this.chkBalanceLbl.Image = global::ATMSim.Properties.Resources.balance_icon;
+            this.chkBalanceLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkBalanceLbl.Location = new System.Drawing.Point(8, 171);
             this.chkBalanceLbl.Name = "chkBalanceLbl";
-            this.chkBalanceLbl.Size = new System.Drawing.Size(144, 19);
+            this.chkBalanceLbl.Size = new System.Drawing.Size(167, 19);
             this.chkBalanceLbl.TabIndex = 21;
             this.chkBalanceLbl.Text = "CHECK BALANCE";
             // 
@@ -281,6 +283,7 @@
             this.depositLbl.BackColor = System.Drawing.Color.Transparent;
             this.depositLbl.Font = new System.Drawing.Font("Nexa Heavy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.depositLbl.ForeColor = System.Drawing.Color.White;
+            this.depositLbl.Image = global::ATMSim.Properties.Resources.deposit_icon;
             this.depositLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.depositLbl.Location = new System.Drawing.Point(8, 106);
             this.depositLbl.Name = "depositLbl";
@@ -293,6 +296,7 @@
             this.changePinLbl.BackColor = System.Drawing.Color.Transparent;
             this.changePinLbl.Font = new System.Drawing.Font("Nexa Heavy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.changePinLbl.ForeColor = System.Drawing.Color.White;
+            this.changePinLbl.Image = global::ATMSim.Properties.Resources.pencil_icon;
             this.changePinLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.changePinLbl.Location = new System.Drawing.Point(8, 42);
             this.changePinLbl.Name = "changePinLbl";
@@ -310,7 +314,7 @@
             this.panel1.Controls.Add(this.withdrawLbl);
             this.panel1.Location = new System.Drawing.Point(101, 247);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(158, 269);
+            this.panel1.Size = new System.Drawing.Size(188, 269);
             this.panel1.TabIndex = 24;
             this.panel1.Visible = false;
             // 
@@ -327,14 +331,14 @@
             // 
             // exitLbl
             // 
-            this.exitLbl.AutoSize = true;
             this.exitLbl.BackColor = System.Drawing.Color.Transparent;
             this.exitLbl.Font = new System.Drawing.Font("Nexa Heavy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exitLbl.ForeColor = System.Drawing.Color.White;
-            this.exitLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.exitLbl.Location = new System.Drawing.Point(112, 234);
+            this.exitLbl.Image = global::ATMSim.Properties.Resources.exit_icon;
+            this.exitLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.exitLbl.Location = new System.Drawing.Point(92, 234);
             this.exitLbl.Name = "exitLbl";
-            this.exitLbl.Size = new System.Drawing.Size(43, 19);
+            this.exitLbl.Size = new System.Drawing.Size(63, 19);
             this.exitLbl.TabIndex = 20;
             this.exitLbl.Text = "EXIT";
             this.exitLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -599,9 +603,7 @@
             this.Text = "ATM";
             this.Load += new System.EventHandler(this.ATM_Load);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.ResumeLayout(false);
