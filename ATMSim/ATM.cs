@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -80,8 +80,7 @@ namespace ATMSim
                     label4.Text = "Deposit successful!";
                     //c.listBox2.Items.Add(this.currentAcc + " deposited " + depositAmount);
                     Log("ATM #" + currentATMNumber + ": " + "Account No. " + this.currentAcc.getAccountNumber() + " deposited " + depositAmount);
-                }
-                else
+                } else
                 {
                     label4.Text = "Deposit failed.";
                 }
