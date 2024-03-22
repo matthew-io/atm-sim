@@ -1,16 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Windows.Forms;
-using Microsoft.VisualBasic;
-using System.Net;
 using System.Media;
 
 namespace ATMSim
@@ -66,31 +58,42 @@ namespace ATMSim
             Console.WriteLine("Is user withdrawing: " + isWithdrawing);
             if (isDepositing)
             {
-                int depositAmount = Int32.Parse(textBox1.Text);
-                hideMiddleInput();
-                label4.Text = "Depositing £" + depositAmount + "....";
-
-                await Task.Delay(1000);
-
-                bool depositSuccess = currentAcc.deposit(depositAmount, Sems, c);
-
-                if (depositSuccess)
+                if (textBox1.Text.Length == 0)
                 {
-                    await Task.Delay(1500);
-                    label4.Text = "Deposit successful!";
-                    //c.listBox2.Items.Add(this.currentAcc + " deposited " + depositAmount);
-                    Log("ATM #" + currentATMNumber + ": " + "Account No. " + this.currentAcc.getAccountNumber() + " deposited " + depositAmount);
+                    hideMiddleInput();
+                    label4.Text = "Please enter a valid amount.";
+                    await Task.Delay(2000);
+                    showMiddleInput();
+                    label4.Text = "Enter deposit amount: ";
+                    return;
                 } else
                 {
-                    label4.Text = "Deposit failed.";
+                    int depositAmount = Int32.Parse(textBox1.Text);
+                    hideMiddleInput();
+                    label4.Text = "Depositing £" + depositAmount + "....";
+
+                    await Task.Delay(1000);
+
+                    bool depositSuccess = currentAcc.deposit(depositAmount, Sems, c);
+
+                    if (depositSuccess)
+                    {
+                        await Task.Delay(1500);
+                        label4.Text = "Deposit successful!";
+                        Log("ATM #" + currentATMNumber + ": " + "Account No. " + this.currentAcc.getAccountNumber() + " deposited £" + depositAmount);
+                    }
+                    else
+                    {
+                        label4.Text = "Deposit failed.";
+                    }
+
+                    await Task.Delay(1500);
+
+
+                    isDepositing = false;
+                    resetMenu();
+                    hideMiddlePanel();
                 }
-
-                await Task.Delay(1500);
-
-
-                isDepositing = false;
-                resetMenu();
-                hideMiddlePanel();
             }
 
             if (isChangingPin)
@@ -149,8 +152,6 @@ namespace ATMSim
                     label4.Text = "Please enter your PIN number";
                     textBox1.Visible = true;
                 }
-
-
             }
         }
 
@@ -161,7 +162,7 @@ namespace ATMSim
             Button btn = sender as Button;
             Console.WriteLine(textBox1.Text.Length);
 
-            if (isLogin)
+            if (isLogin || isChangingPin)
             {
                 textBox1.PasswordChar = '*';
                 if (textBox1.Text.Length < 4)
@@ -169,7 +170,7 @@ namespace ATMSim
                     textBox1.Text += btn.Text;
                 }
             }
-            else if (isDepositing || isWithdrawing)
+            else if (isDepositing || isWithdrawing || isChangingPin)
             {
                 textBox1.PasswordChar = '\0';
                 textBox1.Text += btn.Text;
@@ -229,8 +230,7 @@ namespace ATMSim
             chkBalanceLbl.Text = "£20";
             depositLbl.Text = "£40";
             changePinLbl.Text = "£80";
-            statementLbl.Text = "£100";
-            transferLbl.Text = "£200";
+            exitLbl.Text = "£100";
         }
 
         private async void displayBalance()
@@ -249,8 +249,8 @@ namespace ATMSim
             chkBalanceLbl.Text = "CHECK BALANCE";
             depositLbl.Text = "DEPOSIT";
             changePinLbl.Text = "CHANGE PIN";
-            statementLbl.Text = "PRINT STATEMENT";
-            transferLbl.Text = "TRANSFER";
+            exitLbl.Text = "PRINT STATEMENT";
+            exitLbl.Text = "EXIT";
         }
 
         private async void handleWithdraw(int amount)
@@ -267,8 +267,13 @@ namespace ATMSim
                 label4.Text = "Withdrawing £" + amount + "....";
                 Log("ATM #" + currentATMNumber + ": Account No. " + this.currentAcc.getAccountNumber() + " withdrew £" + amount);
                 await Task.Delay(1000);
+                
                 currentAcc.withdraw(amount, Sems);
             }
+
+            label4.Text = "Withdraw successful!";
+            await Task.Delay(1500);
+
             isWithdrawing = false;
             resetMenu();
             hideMiddlePanel();
@@ -365,10 +370,9 @@ namespace ATMSim
                 case "button8":
                     if (!isWithdrawing)
                     {
-                        displayBalance();
+                        exitAtm();
                         break;
-                    }
-                    if (isWithdrawing)
+                    } else if (isWithdrawing)
                     {
                         handleWithdraw(100);
                         break;
@@ -384,6 +388,11 @@ namespace ATMSim
 
         }
 
+        private void exitAtm()
+        {
+            Log("ATM #" + currentATMNumber + ": Logout initiated by user.");
+            this.Close();
+        }
 
         private void button18_Click(object sender, EventArgs e)
         {
@@ -393,6 +402,18 @@ namespace ATMSim
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void exitLbl_Click(object sender, EventArgs e)
+        {
+            Log("ATM #" + currentATMNumber + ": Logout initiated by user.");
+            this.Close();
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+            resetMenu();
         }
     }
 }

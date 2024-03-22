@@ -35,12 +35,12 @@ namespace ATMSim
             this.balance = balance;
         }
 
-        public String getPin()
+        public string getPin()
         {
             return pin;
         }
 
-        public Boolean withdraw(int amount, bool Sems)
+        public bool withdraw(int amount, bool Sems)
         {
             if (Sems)
             {

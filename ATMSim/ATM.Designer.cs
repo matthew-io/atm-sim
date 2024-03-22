@@ -46,8 +46,7 @@
             this.changePinLbl = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.transferLbl = new System.Windows.Forms.Label();
-            this.statementLbl = new System.Windows.Forms.Label();
+            this.exitLbl = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
@@ -60,6 +59,8 @@
             this.button17 = new System.Windows.Forms.Button();
             this.button18 = new System.Windows.Forms.Button();
             this.button19 = new System.Windows.Forms.Button();
+            this.cancelBtn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -317,8 +318,8 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.Transparent;
-            this.panel2.Controls.Add(this.transferLbl);
-            this.panel2.Controls.Add(this.statementLbl);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.exitLbl);
             this.panel2.Location = new System.Drawing.Point(295, 248);
             this.panel2.Name = "panel2";
             this.panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -326,33 +327,20 @@
             this.panel2.TabIndex = 25;
             this.panel2.Visible = false;
             // 
-            // transferLbl
+            // exitLbl
             // 
-            this.transferLbl.AutoSize = true;
-            this.transferLbl.BackColor = System.Drawing.Color.Transparent;
-            this.transferLbl.Font = new System.Drawing.Font("Nexa Heavy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.transferLbl.ForeColor = System.Drawing.Color.White;
-            this.transferLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.transferLbl.Location = new System.Drawing.Point(63, 163);
-            this.transferLbl.Name = "transferLbl";
-            this.transferLbl.Size = new System.Drawing.Size(94, 19);
-            this.transferLbl.TabIndex = 21;
-            this.transferLbl.Text = "TRANSFER";
-            this.transferLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // statementLbl
-            // 
-            this.statementLbl.AutoSize = true;
-            this.statementLbl.BackColor = System.Drawing.Color.Transparent;
-            this.statementLbl.Font = new System.Drawing.Font("Nexa Heavy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statementLbl.ForeColor = System.Drawing.Color.White;
-            this.statementLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.statementLbl.Location = new System.Drawing.Point(4, 234);
-            this.statementLbl.Name = "statementLbl";
-            this.statementLbl.Size = new System.Drawing.Size(153, 19);
-            this.statementLbl.TabIndex = 20;
-            this.statementLbl.Text = "PRINT STATEMENT";
-            this.statementLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.exitLbl.AutoSize = true;
+            this.exitLbl.BackColor = System.Drawing.Color.Transparent;
+            this.exitLbl.Font = new System.Drawing.Font("Nexa Heavy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exitLbl.ForeColor = System.Drawing.Color.White;
+            this.exitLbl.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.exitLbl.Location = new System.Drawing.Point(112, 234);
+            this.exitLbl.Name = "exitLbl";
+            this.exitLbl.Size = new System.Drawing.Size(43, 19);
+            this.exitLbl.TabIndex = 20;
+            this.exitLbl.Text = "EXIT";
+            this.exitLbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.exitLbl.Click += new System.EventHandler(this.exitLbl_Click);
             // 
             // panel3
             // 
@@ -560,12 +548,44 @@
             this.button19.UseVisualStyleBackColor = false;
             this.button19.Click += new System.EventHandler(this.padClickHandler);
             // 
+            // cancelBtn
+            // 
+            this.cancelBtn.BackColor = System.Drawing.Color.Transparent;
+            this.cancelBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cancelBtn.FlatAppearance.BorderSize = 0;
+            this.cancelBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.cancelBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.cancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cancelBtn.ForeColor = System.Drawing.Color.Black;
+            this.cancelBtn.Location = new System.Drawing.Point(676, 428);
+            this.cancelBtn.Name = "cancelBtn";
+            this.cancelBtn.Size = new System.Drawing.Size(41, 22);
+            this.cancelBtn.TabIndex = 38;
+            this.cancelBtn.UseVisualStyleBackColor = false;
+            this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Nexa Heavy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label1.Location = new System.Drawing.Point(112, 170);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(43, 19);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "EXIT";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label1.Visible = false;
+            // 
             // ATM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(789, 674);
+            this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.button19);
             this.Controls.Add(this.button18);
             this.Controls.Add(this.button15);
@@ -624,8 +644,7 @@
         private System.Windows.Forms.Label changePinLbl;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label transferLbl;
-        private System.Windows.Forms.Label statementLbl;
+        private System.Windows.Forms.Label exitLbl;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
@@ -638,5 +657,7 @@
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button18;
         private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button cancelBtn;
+        private System.Windows.Forms.Label label1;
     }
 }

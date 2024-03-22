@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO;
 
 namespace ATMSim
 {
@@ -28,10 +29,10 @@ namespace ATMSim
             Account accC = new Account(123, "3333", "3333333");
             Account accD = new Account(123, "4444", "4444444");
 
-            accounts.Add("1111", accA);
-            accounts.Add("2222", accB);
-            accounts.Add("3333", accC);
-            accounts.Add("4444", accD);
+            accounts.Add(accA.getPin(), accA);
+            accounts.Add(accB.getPin(), accB);
+            accounts.Add(accC.getPin(), accC);
+            accounts.Add(accD.getPin(), accD);
 
             InitializeComponent();
         }
@@ -85,13 +86,39 @@ namespace ATMSim
         {
             if (checkBox1.Checked)
             {
-                Sems = true;
+                this.Sems = true;
             }
             else
             {
-                Sems = false;
+                this.Sems = false;
             }
         }
 
+        private void label6_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(".");
+        }
+
+        private async void btnSaveLogs_Click(object sender, EventArgs e)
+        {
+            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string fileName = "LogFile-" + timestamp + ".txt";
+
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), fileName)))
+            {
+                foreach (string item in listBox2.Items)
+                {
+                    outputFile.WriteLine(item);
+                }
+            }
+
+            btnSaveLogs.Text = "Logs Saved.";
+            btnSaveLogs.Enabled = false;
+            await Task.Delay(1000);
+
+            btnSaveLogs.Text = "Save Logs";
+            btnSaveLogs.Enabled = true;
+        }
+       
     }
 }
