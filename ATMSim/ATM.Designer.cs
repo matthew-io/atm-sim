@@ -575,6 +575,7 @@
             this.Name = "ATM";
             this.Text = "ATM";
             this.Load += new System.EventHandler(this.ATM_Load);
+            this.Closing += this.ATM_Closing;
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

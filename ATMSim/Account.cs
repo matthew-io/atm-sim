@@ -85,7 +85,7 @@ namespace ATMSim
 
         }
 
-        public Boolean deposit(int amount, bool Sems)
+        public Boolean deposit(int amount, bool Sems, CentralComputer c)
         {
             if (Sems)
             {

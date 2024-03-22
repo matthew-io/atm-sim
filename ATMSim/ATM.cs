@@ -20,25 +20,44 @@ namespace ATMSim
     {
         private Hashtable accounts = new Hashtable();
         private Account currentAcc;
+        private CentralComputer c;
 
         private SoundPlayer soundPlayer;
 
         private int tries = 0;
+        private int currentATMNumber;
         private bool isWithdrawing = false;
         private bool isDepositing = false;
         private bool isChangingPin = false;
         private bool isLogin = true;
         private bool Sems;
+        private delegate void SafeCallDelegate(string text);
 
-        public ATM(Hashtable accounts, bool Sems)
+        public ATM(Hashtable accounts, bool Sems, CentralComputer c, int currentATMNumber)
         {
             this.accounts = accounts;
             this.Sems = Sems;
+            this.c = c;
+            this.currentATMNumber = currentATMNumber;
             InitializeComponent();
 
             System.IO.Stream sound = Properties.Resources.keypress;
             soundPlayer = new SoundPlayer(sound);
             soundPlayer.Load();
+            this.c = c;
+        }
+
+        private void Log(string text)
+        {
+            if (c.listBox2.InvokeRequired)
+            {
+                var d = new SafeCallDelegate(Log);
+                c.listBox2.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                c.listBox2.Items.Add(text);
+            }
         }
 
         private async void enterBtnHandle()
@@ -53,18 +72,21 @@ namespace ATMSim
 
                 await Task.Delay(1000);
 
-                bool depositSuccess = currentAcc.deposit(depositAmount, Sems);
+                bool depositSuccess = currentAcc.deposit(depositAmount, Sems, c);
 
                 if (depositSuccess)
                 {
                     await Task.Delay(1500);
                     label4.Text = "Deposit successful!";
+                    //c.listBox2.Items.Add(this.currentAcc + " deposited " + depositAmount);
+                    Log("ATM #" + currentATMNumber + ": " + "Account No. " + this.currentAcc.getAccountNumber() + " deposited " + depositAmount);
                 } else
                 {
                     label4.Text = "Deposit failed.";
                 }
 
                 await Task.Delay(1500);
+
 
                 isDepositing = false;
                 resetMenu();
@@ -84,6 +106,7 @@ namespace ATMSim
                 if (changeSucess)
                 {
                     label4.Text = "Pin changed sucessfully!";
+                    Log("ATM #" + currentATMNumber + ": " + "Account No. " + this.currentAcc.getAccountNumber() + " changed their PIN to " + newPin);
                 } else
                 {
                     label4.Text = "Pin change unsucessful.";
@@ -105,6 +128,7 @@ namespace ATMSim
                 {
                     this.currentAcc = (Account)accounts[pinText];
                     Console.WriteLine("Account found");
+                    Log("ATM #" + currentATMNumber + ": has logged into Account No. " + this.currentAcc.getAccountNumber());
                     hideMiddlePanel();
                     isLogin = false;
                 }
@@ -162,8 +186,13 @@ namespace ATMSim
         private void ATM_Load(object sender, EventArgs e)
         {
             Console.WriteLine("ATM Loaded");
+            Log("ATM #" + currentATMNumber + " Opened.");
         }
 
+        private void ATM_Closing(object sender, CancelEventArgs e)
+        {
+            Log("ATM #" + currentATMNumber + ": Closed.");
+        }
 
         private void hideSidePanels()
         {
@@ -209,6 +238,7 @@ namespace ATMSim
             hideSidePanels();
             hideMiddleInput();
             label4.Text = "Your current balance is: £" + currentAcc.getBalance();
+            Log("ATM #" + currentATMNumber + ": Account No. " + this.currentAcc.getAccountNumber() + " displayed their balance.");
             await Task.Delay(3000);
             hideMiddlePanel();
         }
@@ -234,6 +264,7 @@ namespace ATMSim
             } else
             {
                 label4.Text = "Withdrawing £" + amount + "....";
+                Log("ATM #" + currentATMNumber + ": Account No. " + this.currentAcc.getAccountNumber() + " withdrew £" + amount);
                 await Task.Delay(1000);
                 currentAcc.withdraw(amount, Sems);
             }
