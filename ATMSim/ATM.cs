@@ -107,8 +107,7 @@ namespace ATMSim
                 {
                     label4.Text = "Pin changed sucessfully!";
                     Log("ATM #" + currentATMNumber + ": " + "Account No. " + this.currentAcc.getAccountNumber() + " changed their PIN to " + newPin);
-                }
-                else
+                } else
                 {
                     label4.Text = "Pin change unsucessful.";
                 }
