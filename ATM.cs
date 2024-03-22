@@ -190,11 +190,6 @@ namespace ATMSim
             Log("ATM #" + currentATMNumber + " Opened.");
         }
 
-        private void ATM_Closing(object sender, CancelEventArgs e)
-        {
-            Log("ATM #" + currentATMNumber + ": Closed.");
-        }
-
         private void hideSidePanels()
         {
             panel1.Visible = false;
@@ -402,6 +397,11 @@ namespace ATMSim
         {
             Log("ATM #" + currentATMNumber + ": Logout initiated by user.");
             this.Close();
+        }
+
+        private void ATM_Closing(Object sender, CancelEventArgs e)
+        {
+            Log("ATM #" + currentATMNumber + ": Logout initiated by user.");
         }
 
         private void button18_Click(object sender, EventArgs e)
